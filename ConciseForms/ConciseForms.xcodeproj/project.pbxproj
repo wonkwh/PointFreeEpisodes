@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		F7F2AEC225BE74260067D65A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F2AEC125BE74260067D65A /* Preview Assets.xcassets */; };
 		F7F2AECD25BE74260067D65A /* ConciseFormsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F2AECC25BE74260067D65A /* ConciseFormsTests.swift */; };
 		F7F2AED825BE74260067D65A /* ConciseFormsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F2AED725BE74260067D65A /* ConciseFormsUITests.swift */; };
+		F7FD983225D023DF0079B6F2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F7FD983125D023DF0079B6F2 /* ComposableArchitecture */; };
+		F7FD983F25D024870079B6F2 /* TCAFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FD983E25D024870079B6F2 /* TCAFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,7 @@
 		F7F2AED325BE74260067D65A /* ConciseFormsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConciseFormsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7F2AED725BE74260067D65A /* ConciseFormsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConciseFormsUITests.swift; sourceTree = "<group>"; };
 		F7F2AED925BE74260067D65A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7FD983E25D024870079B6F2 /* TCAFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7FD983225D023DF0079B6F2 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +104,7 @@
 				F7F2AEBE25BE74260067D65A /* Assets.xcassets */,
 				F7F2AEC325BE74260067D65A /* Info.plist */,
 				F7F2AEC025BE74260067D65A /* Preview Content */,
+				F7FD983E25D024870079B6F2 /* TCAFormView.swift */,
 			);
 			path = ConciseForms;
 			sourceTree = "<group>";
@@ -146,6 +151,9 @@
 			dependencies = (
 			);
 			name = ConciseForms;
+			packageProductDependencies = (
+				F7FD983125D023DF0079B6F2 /* ComposableArchitecture */,
+			);
 			productName = ConciseForms;
 			productReference = F7F2AEB725BE74250067D65A /* ConciseForms.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +225,9 @@
 				Base,
 			);
 			mainGroup = F7F2AEAE25BE74250067D65A;
+			packageReferences = (
+				F7FD983025D023DF0079B6F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = F7F2AEB825BE74250067D65A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,6 +272,7 @@
 			files = (
 				F7F2AEBD25BE74250067D65A /* VanillaSwiftUIFoamView.swift in Sources */,
 				F7F2AEBB25BE74250067D65A /* ConciseFormsApp.swift in Sources */,
+				F7FD983F25D024870079B6F2 /* TCAFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +586,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F7FD983025D023DF0079B6F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F7FD983125D023DF0079B6F2 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7FD983025D023DF0079B6F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F7F2AEAF25BE74250067D65A /* Project object */;
 }
