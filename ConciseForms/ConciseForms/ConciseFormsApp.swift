@@ -11,7 +11,9 @@ import SwiftUI
 struct ConciseFormsApp: App {
     var body: some Scene {
         WindowGroup {
-          VanillaSwiftUIFoamView(viewModel: SettingsViewModel())
+          NavigationView {
+            VanillaSwiftUIFoamView(viewModel: SettingsViewModel())
+          }
         }
     }
 }
