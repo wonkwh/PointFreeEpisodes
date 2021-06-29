@@ -38,6 +38,7 @@ class SettingsViewModel: ObservableObject {
         if !granted || error != nil {
           DispatchQueue.main.async {
             self.sendNotifications = false
+
           }
         }
       }
