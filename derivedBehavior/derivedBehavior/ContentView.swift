@@ -6,26 +6,61 @@
 //
 
 import SwiftUI
-
+import Combine
 class AppViewModel: ObservableObject {
-  @Published var count = 0
-  @Published var favorited: Set<Int> = []
+  let counter: CounterViewModel
+  let profile: ProfileViewModel
+  var cancelBag: Set<AnyCancellable> = []
+  
+  init(
+    counter: CounterViewModel = .init(),
+    profile: ProfileViewModel = .init()
+  ) {
+    self.counter = counter
+    self.profile = profile
+    
+    self.counter.objectWillChange
+      .sink { [weak self] in //weak self 추가해줘야 함
+        self?.objectWillChange.send()
+      }.store(in: &self.cancelBag)
+    
+    self.profile.objectWillChange
+      .sink { [weak self] in
+        self?.objectWillChange.send()
+      }.store(in: &self.cancelBag)
+    
+    //profile tab update를 위해
+    self.counter.$favorites
+      .removeDuplicates()
+      .assign(to: &self.profile.$favorites)
+    
+    self.profile.$favorites
+      .removeDuplicates()
+      .assign(to: &self.counter.$favorites)
+  }
 }
+
 
 struct ContentView: View {
   @ObservedObject var viewModel: AppViewModel
-    var body: some View {
+  
+  var body: some View {
       TabView {
-        CountView(viewModel: viewModel)
-          .tabItem { Text("Profile \(self.viewModel.count)")  }
-        ProfileView(viewModel: viewModel)
-          .tabItem { Text("Profile \(self.viewModel.favorited.count)")  }
+        CountView(viewModel: viewModel.counter)
+          .tabItem { Text("Count \(self.viewModel.counter.count)")  }
+        ProfileView(viewModel: viewModel.profile)
+          .tabItem { Text("Profile \(self.viewModel.profile.favorites.count)")  }
       }
     }
 }
 
+class CounterViewModel: ObservableObject {
+  @Published var count = 0
+  @Published var favorites: Set<Int> = []
+}
+
 struct CountView: View {
-  @ObservedObject var viewModel: AppViewModel
+  @ObservedObject var viewModel: CounterViewModel
   
   var body: some View {
     VStack {
@@ -39,30 +74,35 @@ struct CountView: View {
         }
       }
       
-      if self.viewModel.favorited.contains(self.viewModel.count) {
+      if self.viewModel.favorites.contains(self.viewModel.count) {
         Button("Remove") {
-          self.viewModel.favorited.remove(self.viewModel.count)
+          self.viewModel.favorites.remove(self.viewModel.count)
         }
       } else {
         Button("Save") {
-          self.viewModel.favorited.insert(self.viewModel.count)
+          self.viewModel.favorites.insert(self.viewModel.count)
         }
       }
     }
   }
 }
 
+class ProfileViewModel: ObservableObject {
+  @Published var count = 0
+  @Published var favorites: Set<Int> = []
+}
+
 struct ProfileView: View {
-  @ObservedObject var viewModel: AppViewModel
+  @ObservedObject var viewModel: ProfileViewModel
   
   var body: some View {
     List {
-      ForEach(self.viewModel.favorited.sorted(), id: \.self) { number in
+      ForEach(self.viewModel.favorites.sorted(), id: \.self) { number in
         HStack{
           Text("\(number)")
           Spacer()
           Button("Removed") {
-            self.viewModel.favorited.remove(number)
+            self.viewModel.favorites.remove(number)
           }
         }
       }
