@@ -30,13 +30,35 @@ class AppViewModel: ObservableObject {
       }.store(in: &self.cancelBag)
     
     //profile tab update를 위해
+    var counterIsUpdating = false
+    var profileIsUpdating = false
+
     self.counter.$favorites
-      .removeDuplicates()
-      .assign(to: &self.profile.$favorites)
-    
+      .sink { [weak self] in
+        guard !counterIsUpdating else { return }
+        profileIsUpdating = true
+        defer { profileIsUpdating = false }
+        self?.profile.favorites = $0
+      }
+      .store(in: &self.cancelBag)
+
     self.profile.$favorites
-      .removeDuplicates()
-      .assign(to: &self.counter.$favorites)
+      .sink { [weak self] in
+        guard !profileIsUpdating else { return }
+        counterIsUpdating = true
+        defer { counterIsUpdating = false }
+        self?.counter.favorites = $0
+      }
+      .store(in: &self.cancelBag)
+    
+    
+//    self.counter.$favorites
+//      .removeDuplicates()
+//      .assign(to: &self.profile.$favorites)
+//
+//    self.profile.$favorites
+//      .removeDuplicates()
+//      .assign(to: &self.counter.$favorites)
   }
 }
 

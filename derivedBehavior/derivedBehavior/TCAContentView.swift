@@ -5,7 +5,24 @@
 //  Created by kwanghyun won on 2021/06/11.
 //
 
+import ComposableArchitecture
 import SwiftUI
+
+struct AppState {
+  var count = 0
+  var favorites: Set<Int> = []
+}
+
+enum AppAction {
+  case incrementButtonTapped
+  case decrementButtonTapped
+  case saveButtonTapped
+  case removeButtonTapped
+  case profileRemoveButtonTapped(Int)
+}
+
+struct AppEnvironment { }
+
 
 struct TCAContentView: View {
     var body: some View {
