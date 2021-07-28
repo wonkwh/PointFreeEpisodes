@@ -116,6 +116,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89AC234524B99DA5007CC506 /* Build configuration list for PBXNativeTarget "TCATodo" */;
 			buildPhases = (
+				F721AE0126A9413D00A9EDAE /* swift-format */,
 				89AC232224B99DA3007CC506 /* Sources */,
 				89AC232324B99DA3007CC506 /* Frameworks */,
 				89AC232424B99DA3007CC506 /* Resources */,
@@ -210,6 +211,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F721AE0126A9413D00A9EDAE /* swift-format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift-format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swift-format >/dev/null; then\n      swift-format -m format -i -r ${PROJECT_DIR}\nelse\n  echo \"warning: swift-format not installed\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		89AC232224B99DA3007CC506 /* Sources */ = {
