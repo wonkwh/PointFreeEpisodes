@@ -11,37 +11,47 @@ import SwiftUI
 struct AppState: Equatable {
   var count = 0
   var favorites: Set<Int> = []
+  
+  var countState: CountState {
+    get {
+      .init(count: self.count, favorites: self.favorites)
+    }
+    
+    set {
+      self.count = newValue.count
+      self.favorites = newValue.favorites
+    }
+  }
+  
+  var profileState: ProfileState {
+    get {
+      .init(favorites: favorites)
+    }
+    set {
+      self.favorites = newValue.favorites
+    }
+  }
 }
 
 enum AppAction {
-  case incrementButtonTapped
-  case decrementButtonTapped
-  case saveButtonTapped
-  case removeButtonTapped
-  case profileRemoveButtonTapped(Int)
+  case countAction(CountAction)
+  case profileAction(ProfileAction)
 }
 
 struct AppEnvironment { }
 
-let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
-  switch action {
-  case .incrementButtonTapped:
-    state.count += 1
-    return .none
-  case .decrementButtonTapped:
-    state.count -= 1
-    return .none
-  case .saveButtonTapped:
-    state.favorites.insert(state.count)
-    return .none
-  case .removeButtonTapped:
-    state.favorites.remove(state.count)
-    return .none
-  case .profileRemoveButtonTapped( let number ):
-    state.favorites.remove(number)
-    return .none
-  }
-}
+let appReducer = Reducer.combine(
+  countReducer.pullback(
+    state: \AppState.countState,
+    action: /AppAction.countAction,
+    environment: { (_: AppEnvironment) in CountEnvironment()
+  }),
+  profileReducer.pullback(
+    state: \AppState.profileState,
+    action: /AppAction.profileAction,
+    environment: { (_: AppEnvironment) in ProfileEnvironment()
+  })
+)
 
 struct TCAContentView: View {
   let store: Store<AppState, AppAction>
@@ -49,11 +59,11 @@ struct TCAContentView: View {
   var body: some View {
     WithViewStore(self.store) { viewStore in
       TabView {
-        TCACountView(store: self.store)
+        TCACountView(store: self.store.scope(state: \.countState, action: AppAction.countAction))
           .tabItem {
             Text("Count\(viewStore.count)")
           }
-        TCAProfileView(store: self.store)
+        TCAProfileView(store: self.store.scope(state: \.profileState, action: AppAction.profileAction))
           .tabItem {
             Text("Profile \(viewStore.favorites.count)")
           }
@@ -62,64 +72,15 @@ struct TCAContentView: View {
   }
 }
 
-struct TCACountView: View {
-  let store: Store<AppState, AppAction>
-  
-  var body: some View {
-    WithViewStore(self.store) { viewStore in
-      VStack {
-        HStack {
-          Button("-") {
-            viewStore.send(.decrementButtonTapped)
-          }
-          Text("\(viewStore.state.count)")
-          Button("+") {
-            viewStore.send(.incrementButtonTapped)
-          }
-        }
-        
-        if viewStore.favorites.contains(viewStore.count) {
-          Button("Remove") {
-            viewStore.send(.removeButtonTapped)
-          }
-        } else {
-          Button("Save") {
-            viewStore.send(.saveButtonTapped)
-          }
-        }
-      }
-    }
-  }
-}
-
-struct TCAProfileView: View {
-  let store: Store<AppState, AppAction>
-  
-  var body: some View {
-    WithViewStore(self.store) { viewStore in
-      List {
-        ForEach(viewStore.favorites.sorted(), id:\.self) { number in
-          HStack{
-            Text("\(number)")
-            Spacer()
-            Button("Removed") {
-              viewStore.send(.profileRemoveButtonTapped(number))
-            }
-          }
-        }
-      }
-    }
-  }
-}
 
 struct TCAContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        TCAContentView(
-          store: Store(
-            initialState: AppState(),
-            reducer: appReducer,
-            environment: AppEnvironment()
-          )
-        )
-    }
+  static var previews: some View {
+    TCAContentView(
+      store: Store(
+        initialState: AppState(),
+        reducer: appReducer,
+        environment: AppEnvironment()
+      )
+    )
+  }
 }
