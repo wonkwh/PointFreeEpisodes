@@ -11,6 +11,7 @@
 		F7F3C7F027029FD100412194 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3C7EF27029FD100412194 /* ContentView.swift */; };
 		F7F3C7F227029FD200412194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F3C7F127029FD200412194 /* Assets.xcassets */; };
 		F7F3C7F527029FD200412194 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F3C7F427029FD200412194 /* Preview Assets.xcassets */; };
+		F7F3C7FD2702BE9400412194 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3C7FC2702BE9400412194 /* Inventory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		F7F3C7F127029FD200412194 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7F3C7F427029FD200412194 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F7F3C7F627029FD200412194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7F3C7FC2702BE9400412194 /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				F7F3C7ED27029FD000412194 /* NavigationApp.swift */,
 				F7F3C7EF27029FD100412194 /* ContentView.swift */,
+				F7F3C7FC2702BE9400412194 /* Inventory.swift */,
 				F7F3C7F127029FD200412194 /* Assets.xcassets */,
 				F7F3C7F627029FD200412194 /* Info.plist */,
 				F7F3C7F327029FD200412194 /* Preview Content */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7F3C7FD2702BE9400412194 /* Inventory.swift in Sources */,
 				F7F3C7F027029FD100412194 /* ContentView.swift in Sources */,
 				F7F3C7EE27029FD000412194 /* NavigationApp.swift in Sources */,
 			);

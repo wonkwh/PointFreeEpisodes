@@ -9,34 +9,38 @@ import SwiftUI
 
 enum Tab {
   case one
-  case two
+  case inventory
   case three
 }
 
 class AppViewModel: ObservableObject {
+  @Published var inventoryViewModel: InventoryViewModel
   @Published var selectedTab: Tab
   
-  init(selectedTab: Tab = .one) {
+  init(
+    inventoryViewModel: InventoryViewModel = .init(),
+     selectedTab: Tab = .one
+  ) {
+    self.inventoryViewModel = inventoryViewModel
     self.selectedTab = selectedTab
   }
 }
 
 struct ContentView: View {
-//  @State var selection = 1
   @ObservedObject var viewModel: AppViewModel
   
   var body: some View {
     TabView(selection: self.$viewModel.selectedTab ) {
       
       Button("Go to 2nd Tab") {
-        self.viewModel.selectedTab = .two
+        self.viewModel.selectedTab = .inventory
       }
       .tabItem { Text("One") }
       .tag(Tab.one)
     
-      Text("Two")
-        .tabItem { Text("Two") }
-        .tag(Tab.two)
+      InventoryView(viewModel: self.viewModel.inventoryViewModel)
+        .tabItem { Text("Items") }
+        .tag(Tab.inventory)
       
       Text("Three")
         .tabItem { Text("Three") }
@@ -47,6 +51,17 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView(viewModel: .init(selectedTab: .two))
+    ContentView(
+      viewModel: .init(
+        inventoryViewModel: .init( inventory: [
+              Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100)),
+              Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
+              Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
+              Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
+            ]
+          ),
+        selectedTab: .inventory
+      )
+    )
   }
 }
